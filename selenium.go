@@ -213,6 +213,11 @@ type Cookie struct {
 }
 
 // WebDriver defines methods supported by WebDriver drivers.
+//
+// Deprecated: This interface is slated to be removed in 2018. No new additions
+// to this interface will be made. Instead, reference the concrete type,
+// Driver, in this package. Please update existing code that references
+// selenium.WebDriver.
 type WebDriver interface {
 	// Status returns various pieces of information about the server environment.
 	Status() (*Status, error)

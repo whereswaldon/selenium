@@ -297,7 +297,7 @@ func testFirefoxPreferences(t *testing.T, c config) {
 	f.Prefs["browser.startup.page"] = "1"
 	caps.AddFirefox(f)
 
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: caps,
 		urlPrefix:    c.addr,
 	}
@@ -339,7 +339,7 @@ func testFirefoxProfile(t *testing.T, c config) {
 	}
 	caps.AddFirefox(f)
 
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: caps,
 		urlPrefix:    c.addr,
 	}
@@ -454,7 +454,7 @@ func newTestCapabilities(t *testing.T, c config) Capabilities {
 	return caps
 }
 
-func newRemote(t *testing.T, c config) WebDriver {
+func newRemote(t *testing.T, c config) *Driver {
 	caps := newTestCapabilities(t, c)
 	wd, err := NewRemote(caps, c.addr)
 	if err != nil {
@@ -463,7 +463,7 @@ func newRemote(t *testing.T, c config) WebDriver {
 	return wd
 }
 
-func quitRemote(t *testing.T, wd WebDriver) {
+func quitRemote(t *testing.T, wd *Driver) {
 	if err := wd.Quit(); err != nil {
 		t.Errorf("wd.Quit() returned error: %v", err)
 	}
@@ -535,7 +535,7 @@ func testStatus(t *testing.T, c config) {
 
 func testNewSession(t *testing.T, c config) {
 	// Bypass NewRemote which itself calls NewSession internally.
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: newTestCapabilities(t, c),
 		urlPrefix:    c.addr,
 	}
@@ -569,7 +569,7 @@ func testNewSession(t *testing.T, c config) {
 
 func testExtendedErrorMessage(t *testing.T, c config) {
 	// Bypass NewRemote which itself calls NewSession internally.
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: newTestCapabilities(t, c),
 		urlPrefix:    c.addr,
 	}
@@ -1091,9 +1091,8 @@ func testAddCookie(t *testing.T, c config) {
 
 	// Firefox and Geckodriver now returns an empty string for the path.
 	if c.browser == "firefox" {
-		r := wd.(*remoteWD)
 		switch {
-		case r.browserVersion.LT(v("56.0.0")):
+		case wd.browserVersion.LT(v("56.0.0")):
 			// https://github.com/mozilla/geckodriver/issues/463
 			want.Expiry = 0
 		case c.seleniumVersion.Major == 0: // Geckodriver returns an empty string.
@@ -1344,7 +1343,7 @@ func testLog(t *testing.T, c config) {
 	if c.browser == "chrome" {
 		caps.SetLogLevel(log.Performance, log.All)
 	}
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: caps,
 		urlPrefix:    c.addr,
 	}
@@ -1593,7 +1592,7 @@ func testProxy(t *testing.T, c config) {
 	}
 	caps.AddProxy(proxy)
 
-	wd := &remoteWD{
+	wd := &Driver{
 		capabilities: caps,
 		urlPrefix:    c.addr,
 	}

@@ -111,6 +111,24 @@ Using Geckodriver without Selenium usually has the above known issues as well.
 There are a number of upcoming changes that break backward compatibility in an
 effort to improve and adapt the existing API. They are listed here:
 
+### 22 August 2017
+
+The `WebDriver` interface was marked deprecated and the `NewRemote` function
+now returns a concrete `*Driver` instance.
+
+Large interfaces are discouraged in Go. Interfaces should be small (e.g. the
+`io.*` interfaces) and generally defined by the user of a type, not the API
+(unless there are going to be multiple implementations of the interface within
+the package).
+
+To encourage migration, the `WebDriver` interface will not be augmented with
+any new methods attached to the `Driver` type.
+
+References to `selenium.WebDriver` must be changed to refer instead to
+`*selenium.Driver` before `selenium.WebDriver` is removed in 2018. An
+alternative includes creating a private interface that enumerates the methods
+needed.
+
 ### 18 April 2017
 
 The Log method was changed to accept a typed constant for the type of log to
