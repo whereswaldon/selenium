@@ -102,8 +102,21 @@ Using Geckodriver without Selenium usually has the above known issues as well.
 
 ## Breaking Changes
 
-There are a number of upcoming changes that break backward compatibility in an
-effort to improve and adapt the existing API. They are listed here:
+We explicitly attempt to keep breaking changes to a minimum. However, there are
+a number of upcoming changes that break backward compatibility in an effort to
+improve and adapt the existing API. They are listed here:
+
+### Future
+
+The `selenium.WebDriver` interface will be deprecated and, after a time, removed. Large interfaces are discouraged in Go. [See #72](https://github.com/tebeka/selenium/issues/72).
+
+### 28 August 2017
+
+The `.../selenium/log` package was renamed to the (unfortunately more
+stutter-y) `seleniumlog` package to avoid naming collisions with the common
+`log` packages.
+
+See below for a note about this migration.
 
 ### 22 August 2017
 
@@ -114,6 +127,8 @@ The `Version` constant was removed as it is unused.
 The Log method was changed to accept a typed constant for the type of log to
 retrieve, instead of a raw string. The return value was also changed to provide
 a more idiomatic type.
+
+This change was not well thought out. See the update above; we should have done a three-step update: introduce the new types, add type aliases (only available in go1.9+, released Aug 2017), provide migration time, and remove the old types. Those responsible have been sacked.
 
 ## Hacking
 
