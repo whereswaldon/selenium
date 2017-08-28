@@ -5,7 +5,7 @@ import (
 
 	"github.com/tebeka/selenium/chrome"
 	"github.com/tebeka/selenium/firefox"
-	"github.com/tebeka/selenium/log"
+	"github.com/tebeka/selenium/seleniumlog"
 )
 
 // TODO(minusnine): make an enum type called FindMethod.
@@ -108,17 +108,17 @@ func (c Capabilities) AddProxy(p Proxy) {
 }
 
 // AddLogging adds logging configuration to the capabilities.
-func (c Capabilities) AddLogging(l log.Capabilities) {
-	c[log.CapabilitiesKey] = l
+func (c Capabilities) AddLogging(l seleniumlog.Capabilities) {
+	c[seleniumlog.CapabilitiesKey] = l
 }
 
 // SetLogLevel sets the logging level of a component. It is a shortcut for
-// passing a log.Capabilities instance to AddLogging.
-func (c Capabilities) SetLogLevel(typ log.Type, level log.Level) {
-	if _, ok := c[log.CapabilitiesKey]; !ok {
-		c[log.CapabilitiesKey] = make(log.Capabilities)
+// passing a seleniumlog.Capabilities instance to AddLogging.
+func (c Capabilities) SetLogLevel(typ seleniumlog.Type, level seleniumlog.Level) {
+	if _, ok := c[seleniumlog.CapabilitiesKey]; !ok {
+		c[seleniumlog.CapabilitiesKey] = make(seleniumlog.Capabilities)
 	}
-	m := c[log.CapabilitiesKey].(log.Capabilities)
+	m := c[seleniumlog.CapabilitiesKey].(seleniumlog.Capabilities)
 	m[typ] = level
 }
 
@@ -334,7 +334,7 @@ type WebDriver interface {
 	// capabilities.
 	//
 	// NOTE: will return an error (not implemented) on IE11 or Edge drivers.
-	Log(typ log.Type) ([]log.Message, error)
+	Log(typ seleniumlog.Type) ([]seleniumlog.Message, error)
 
 	// DismissAlert dismisses current alert.
 	DismissAlert() error

@@ -21,8 +21,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/tebeka/selenium/chrome"
 	"github.com/tebeka/selenium/firefox"
-	"github.com/tebeka/selenium/log"
 	"github.com/tebeka/selenium/sauce"
+	"github.com/tebeka/selenium/seleniumlog"
 )
 
 var (
@@ -1408,9 +1408,9 @@ func testLog(t *testing.T, c config) {
 		t.Skip("The log interface is not supported on Firefox, since it is not yet part of the W3C spec.")
 	}
 	caps := newTestCapabilities(t, c)
-	caps.SetLogLevel(log.Browser, log.All)
+	caps.SetLogLevel(seleniumlog.Browser, seleniumlog.All)
 	if c.browser == "chrome" {
-		caps.SetLogLevel(log.Performance, log.All)
+		caps.SetLogLevel(seleniumlog.Performance, seleniumlog.All)
 	}
 	wd := &remoteWD{
 		capabilities: caps,
@@ -1425,7 +1425,7 @@ func testLog(t *testing.T, c config) {
 	if err := wd.Get(url); err != nil {
 		t.Fatalf("wd.Get(%q) returned error: %v", url, err)
 	}
-	logs, err := wd.Log(log.Browser)
+	logs, err := wd.Log(seleniumlog.Browser)
 	if err != nil {
 		t.Fatalf("wd.Log(Browser) returned error: %v", err)
 	}
@@ -1440,7 +1440,7 @@ func testLog(t *testing.T, c config) {
 	}
 
 	if c.browser == "chrome" {
-		logs, err = wd.Log(log.Performance)
+		logs, err = wd.Log(seleniumlog.Performance)
 		if err != nil {
 			t.Fatalf("wd.Log(Performance) returned error: %v", err)
 		}

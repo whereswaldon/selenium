@@ -1,5 +1,5 @@
-// Package log provides logging-related configuration types and constants.
-package log
+// Package seleniumlog provides logging-related configuration types and constants.
+package seleniumlog
 
 import "time"
 
@@ -37,8 +37,8 @@ const (
 // structure representing WebDriver capabilities.
 const CapabilitiesKey = "loggingPrefs"
 
-// Capability is the map to include in the WebDriver capabilities structure to
-// configure logging.
+// Capabilities is the map to include in the WebDriver capabilities structure
+// to configure logging.
 type Capabilities map[Type]Level
 
 // Message is a log message returned from the Log method.

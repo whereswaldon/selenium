@@ -17,7 +17,7 @@ import (
 
 	"github.com/blang/semver"
 	"github.com/tebeka/selenium/firefox"
-	"github.com/tebeka/selenium/log"
+	"github.com/tebeka/selenium/seleniumlog"
 )
 
 // Errors returned by Selenium server.
@@ -1197,9 +1197,9 @@ func (wd *remoteWD) Wait(condition Condition) error {
 	return wd.WaitWithTimeoutAndInterval(condition, DefaultWaitTimeout, DefaultWaitInterval)
 }
 
-func (wd *remoteWD) Log(typ log.Type) ([]log.Message, error) {
+func (wd *remoteWD) Log(typ seleniumlog.Type) ([]seleniumlog.Message, error) {
 	url := wd.requestURL("/session/%s/log", wd.id)
-	params := map[string]log.Type{
+	params := map[string]seleniumlog.Type{
 		"type": typ,
 	}
 	data, err := json.Marshal(params)
@@ -1222,11 +1222,11 @@ func (wd *remoteWD) Log(typ log.Type) ([]log.Message, error) {
 		return nil, err
 	}
 
-	val := make([]log.Message, len(c.Value))
+	val := make([]seleniumlog.Message, len(c.Value))
 	for i, v := range c.Value {
-		val[i] = log.Message{
+		val[i] = seleniumlog.Message{
 			Timestamp: time.Unix(0, v.Timestamp*1000),
-			Level:     log.Level(v.Level),
+			Level:     seleniumlog.Level(v.Level),
 			Message:   v.Message,
 		}
 	}
