@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/tebeka/selenium/sauce"
+	"github.com/whereswaldon/selenium/sauce"
 )
 
 var (
