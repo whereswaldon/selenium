@@ -321,6 +321,8 @@ func NewFrameBufferWithOptions(options FrameBufferOptions) (*FrameBuffer, error)
 	}
 	xvfb := exec.Command("Xvfb", arguments...)
 	xvfb.ExtraFiles = []*os.File{w}
+	xvfb.Stdout = os.Stdout
+	xvfb.Stderr = os.Stderr
 
 	// TODO(minusnine): plumb a way to set xvfb.Std{err,out} conditionally.
 	// TODO(minusnine): Pdeathsig is only supported on Linux. Somehow, make sure
